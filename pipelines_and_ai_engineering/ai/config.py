@@ -1,0 +1,47 @@
+from __future__ import annotations
+
+import os
+from dataclasses import dataclass
+from typing import Mapping, Optional
+
+
+@dataclass(frozen=True)
+class EngineConfig:
+    api_key: str
+    model: str = "gemini-3.8-flash"
+    max_output_tokens: int = 4096
+    thinking_level: str = "medium"
+    corpus_path: str = "research_and_data/legal_corpus.jsonl"
+    retrieval_limit: int = 5
+    minimum_relevance: float = 0.25
+
+    @classmethod
+    def from_environment(cls, environ: Optional[Mapping[str, str]] = None) -> "EngineConfig":
+        values = os.environ if environ is None else environ
+        api_key = values.get("GEMINI_API_KEY", "").strip()
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY is required to use the Gemini engine")
+
+        try:
+            max_output_tokens = int(values.get("GEMINI_MAX_OUTPUT_TOKENS", "4096"))
+            retrieval_limit = int(values.get("LEGAL_RETRIEVAL_LIMIT", "5"))
+            minimum_relevance = float(values.get("LEGAL_MINIMUM_RELEVANCE", "0.25"))
+        except ValueError as exc:
+            raise ValueError("Gemini/retrieval numeric environment settings are invalid") from exc
+
+        if max_output_tokens < 1:
+            raise ValueError("GEMINI_MAX_OUTPUT_TOKENS must be greater than zero")
+        if retrieval_limit < 1:
+            raise ValueError("LEGAL_RETRIEVAL_LIMIT must be greater than zero")
+        if not 0.0 <= minimum_relevance <= 1.0:
+            raise ValueError("LEGAL_MINIMUM_RELEVANCE must be between 0 and 1")
+
+        return cls(
+            api_key=api_key,
+            model=values.get("GEMINI_MODEL", "gemini-3.8-flash").strip(),
+            max_output_tokens=max_output_tokens,
+            thinking_level=values.get("GEMINI_THINKING_LEVEL", "medium").strip(),
+            corpus_path=values.get("LEGAL_CORPUS_PATH", "research_and_data/legal_corpus.jsonl"),
+            retrieval_limit=retrieval_limit,
+            minimum_relevance=minimum_relevance,
+        )
