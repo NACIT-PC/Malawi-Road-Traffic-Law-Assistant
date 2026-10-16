@@ -17,12 +17,12 @@ From the repository root:
 
 ```sh
 python -m pip install -r pipelines_and_ai_engineering/requirements.txt
-export GEMINI_API_KEY="your-key"
-export LEGAL_CORPUS_PATH="research_and_data/legal_corpus.jsonl"
+cp .env.example .env
+# Edit .env and replace the placeholder GEMINI_API_KEY with your key.
 python -m pipelines_and_ai_engineering.main "What does the law say about a valid driving licence?"
 ```
 
-Do not commit API keys. Set them through the local environment or your deployment secret manager. The SDK also supports reading `GEMINI_API_KEY` from the environment.
+The engine loads `.env` from the repository root automatically. `.env` is ignored by Git; `.env.example` is a safe, tracked template and must contain placeholders only. Never commit a real API key. Variables already set in the shell or deployment environment take precedence over values in `.env`; production deployments should use their secret manager.
 
 If there is no corpus file yet, `LEGAL_CORPUS_PATH` should point to the JSONL file the Research and Data team will provide. The engine does not fabricate records when the corpus is missing or has no relevant verified entries.
 

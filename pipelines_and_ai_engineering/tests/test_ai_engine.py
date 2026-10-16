@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
 from typing import List
+from unittest.mock import patch
 
 from pipelines_and_ai_engineering.ai import (
     EngineConfig,
@@ -93,6 +95,27 @@ class CorpusAndRetrievalTests(unittest.TestCase):
         results = retriever.retrieve("What is the driving licence rule?", limit=5)
 
         self.assertEqual([item.evidence.evidence_id for item in results], ["current"])
+
+    def test_config_loads_local_env_without_overriding_existing_environment(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            project_root = Path(directory)
+            (project_root / ".env").write_text(
+                "GEMINI_API_KEY=from-dotenv\nGEMINI_MODEL=model-from-dotenv\n",
+                encoding="utf-8",
+            )
+            with patch.dict(os.environ, {"GEMINI_MODEL": "model-from-shell"}, clear=True):
+                with patch("pipelines_and_ai_engineering.ai.config.PROJECT_ROOT", project_root):
+                    config = EngineConfig.from_environment()
+
+        self.assertEqual(config.api_key, "from-dotenv")
+        self.assertEqual(config.model, "model-from-shell")
+
+    def test_explicit_environment_does_not_read_local_env(self) -> None:
+        with patch("pipelines_and_ai_engineering.ai.config.load_dotenv") as load_env:
+            config = EngineConfig.from_environment({"GEMINI_API_KEY": "test-key"})
+
+        load_env.assert_not_called()
+        self.assertEqual(config.api_key, "test-key")
 
 
 class AssistantTests(unittest.TestCase):

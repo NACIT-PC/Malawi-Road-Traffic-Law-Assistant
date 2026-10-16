@@ -2,7 +2,13 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Mapping, Optional
+
+from dotenv import load_dotenv
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 @dataclass(frozen=True)
@@ -17,6 +23,8 @@ class EngineConfig:
 
     @classmethod
     def from_environment(cls, environ: Optional[Mapping[str, str]] = None) -> "EngineConfig":
+        if environ is None:
+            load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=False)
         values = os.environ if environ is None else environ
         api_key = values.get("GEMINI_API_KEY", "").strip()
         if not api_key:
