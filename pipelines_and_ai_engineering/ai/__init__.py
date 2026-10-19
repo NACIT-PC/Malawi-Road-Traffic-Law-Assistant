@@ -1,7 +1,7 @@
 from .config import EngineConfig
 from .corpus import CorpusFormatError, JsonlCorpus
 from .engine import LegalAssistant, NO_EVIDENCE_MESSAGE, TextGenerator, UncitedAnswerError
-from .gemini import GeminiTextGenerator
+from .gemini import GeminiGenerationError, GeminiTextGenerator
 from .models import AssistantResult, Citation, LegalEvidence, LegalSource
 from .retrieval import EvidenceRetriever, LexicalEvidenceRetriever, RetrievedEvidence
 
@@ -11,6 +11,7 @@ __all__ = [
     "CorpusFormatError",
     "EngineConfig",
     "GeminiTextGenerator",
+    "GeminiGenerationError",
     "EvidenceRetriever",
     "JsonlCorpus",
     "LegalAssistant",

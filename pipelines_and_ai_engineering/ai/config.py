@@ -20,6 +20,7 @@ class EngineConfig:
     corpus_path: str = "research_and_data/legal_corpus.jsonl"
     retrieval_limit: int = 5
     minimum_relevance: float = 0.25
+    timeout_ms: int = 30000
 
     @classmethod
     def from_environment(cls, environ: Optional[Mapping[str, str]] = None) -> "EngineConfig":
@@ -32,6 +33,7 @@ class EngineConfig:
 
         try:
             max_output_tokens = int(values.get("GEMINI_MAX_OUTPUT_TOKENS", "4096"))
+            timeout_ms = int(values.get("GEMINI_TIMEOUT_MS", "30000"))
             retrieval_limit = int(values.get("LEGAL_RETRIEVAL_LIMIT", "5"))
             minimum_relevance = float(values.get("LEGAL_MINIMUM_RELEVANCE", "0.25"))
         except ValueError as exc:
@@ -39,6 +41,8 @@ class EngineConfig:
 
         if max_output_tokens < 1:
             raise ValueError("GEMINI_MAX_OUTPUT_TOKENS must be greater than zero")
+        if timeout_ms < 1:
+            raise ValueError("GEMINI_TIMEOUT_MS must be greater than zero")
         if retrieval_limit < 1:
             raise ValueError("LEGAL_RETRIEVAL_LIMIT must be greater than zero")
         if not 0.0 <= minimum_relevance <= 1.0:
@@ -49,6 +53,7 @@ class EngineConfig:
             model=values.get("GEMINI_MODEL", "gemini-3.8-flash").strip(),
             max_output_tokens=max_output_tokens,
             thinking_level=values.get("GEMINI_THINKING_LEVEL", "medium").strip(),
+            timeout_ms=timeout_ms,
             corpus_path=values.get("LEGAL_CORPUS_PATH", "research_and_data/legal_corpus.jsonl"),
             retrieval_limit=retrieval_limit,
             minimum_relevance=minimum_relevance,

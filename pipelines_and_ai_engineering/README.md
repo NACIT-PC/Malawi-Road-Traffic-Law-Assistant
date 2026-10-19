@@ -64,6 +64,7 @@ else:
 | `GEMINI_MODEL` | `gemini-3.8-flash` | Gemini model identifier |
 | `GEMINI_MAX_OUTPUT_TOKENS` | `4096` | Maximum generated tokens |
 | `GEMINI_THINKING_LEVEL` | `medium` | Gemini thinking level |
+| `GEMINI_TIMEOUT_MS` | `30000` | Gemini HTTP request timeout in milliseconds |
 | `LEGAL_CORPUS_PATH` | `research_and_data/legal_corpus.jsonl` | Approved JSONL evidence file |
 | `LEGAL_RETRIEVAL_LIMIT` | `5` | Maximum evidence passages sent to Gemini |
 | `LEGAL_MINIMUM_RELEVANCE` | `0.25` | Minimum lexical query-term coverage (0-1) |
@@ -76,4 +77,33 @@ Run the unit tests from the repository root:
 python -m unittest discover -s pipelines_and_ai_engineering/tests -v
 ```
 
-The test suite uses a fake Gemini client and does not make API calls or require a live API key.
+The engine and API tests use fake generators and do not make API calls or require a live API key.
+
+## HTTP API
+
+Install the package dependencies from the repository root:
+
+```sh
+python -m pip install -r pipelines_and_ai_engineering/requirements.txt
+```
+
+Set `GEMINI_API_KEY` in the environment or in the root `.env` file and provide the approved JSONL corpus at `LEGAL_CORPUS_PATH` (default: `research_and_data/legal_corpus.jsonl`). The application fails during startup if the key, configuration, or corpus is missing or invalid. Do not add unverified legal content to the corpus.
+
+For the Uvicorn command, configuration steps, endpoint details, and local smoke-test instructions, see the [API run guide](API_RUNBOOK.md).
+
+The local development server listens on `http://127.0.0.1:8000`; interactive OpenAPI documentation is at `/docs`.
+
+| Method and path | Behavior |
+|---|---|
+| `POST /api/ask` | Accepts `{"question": "..."}` and returns an answer, state, request ID, and citations. Question length is limited to 2,000 characters. |
+| `GET /api/sources` | Lists source metadata from the loaded corpus. |
+| `GET /api/sources/{source_id}` | Returns a source and its provisions; provision text and links are exposed only for verified/current sources. |
+| `POST /api/reports` | Validates a report and returns `503 report_storage_unavailable` until persistent report storage exists. Reports are not silently discarded. |
+| `GET /` | Returns minimal liveness status. |
+| `GET /api/health` | Liveness alias; it does not disclose readiness or configuration. |
+
+The API maps the engine's current results to `supported` and `insufficient_evidence`. `conflicting_sources`, `possibly_outdated`, and `needs_clarification` are reserved because their detection is not implemented. `technical_failure` is reserved as an answer state; request failures instead use the documented HTTP error response. The API does not produce a structured penalty lookup or official next step, and returns those fields as null.
+
+`API_ALLOWED_ORIGINS` is a comma-separated allowlist of exact origins; it is empty by default. `API_MAX_REQUEST_BYTES`, `API_RATE_LIMIT_REQUESTS`, and `API_RATE_LIMIT_WINDOW_SECONDS` configure request limits. The rate limiter is process-local and is not shared between workers or replicas; deployments with multiple workers must enforce shared rate limiting at a trusted proxy or add a shared backend. Gemini requests have a configurable `GEMINI_TIMEOUT_MS` timeout.
+
+This API milestone does not include a frontend, database, report persistence, distributed rate limiting, authentication, or deployment configuration. It is not a production-security certification. A production deployment still needs reviewed legal data, HTTPS and a trusted proxy, operational monitoring, deployment-specific controls, and an agreed persistent report store.
