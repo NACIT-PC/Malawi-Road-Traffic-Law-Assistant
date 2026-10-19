@@ -1,0 +1,130 @@
+{
+  "dataset_name": "Malawi Road Traffic Law Assistant — Research & Data draft",
+  "dataset_version": "0.1.0",
+  "as_of_date": "2026-10-19",
+  "release_status": "research_draft_not_production_approved",
+  "records": [
+    {
+      "record_id": "MW-RT-PEN-2026-001",
+      "jurisdiction": "Malawi",
+      "offence_label": "Failing to produce a vehicle for inspection",
+      "statutory_reference": "Road Traffic Act s.7(1)(a), as cited in 2026 schedule transcription",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 50000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-007"
+      ],
+      "source_locator": "2026 schedule item 1, transcription copy",
+      "verification_status": "provisional_needs_primary_pdf_check",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "Transcription-only extraction; do not publish as confirmed."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-002",
+      "jurisdiction": "Malawi",
+      "offence_label": "Failing to stop or comply with directions of a traffic law enforcement officer",
+      "statutory_reference": "Road Traffic Act ss.8 or 9(1), as cited in schedule/report",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 100000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006"
+      ],
+      "source_locator": "2026 schedule; Nation Online 2026-05-13",
+      "verification_status": "provisional_secondary_crosscheck_primary_pdf_required",
+      "confidence": "medium-low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "Reported by news source; verify exact wording and value in official Gazette."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-003",
+      "jurisdiction": "Malawi",
+      "offence_label": "Driving a motor vehicle without a licence or professional driving permit",
+      "statutory_reference": "Road Traffic Act ss.18(1) or 45(1), as cited in schedule",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 200000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006",
+        "SRC-007"
+      ],
+      "source_locator": "2026 schedule item 11 in transcription; Nation Online report",
+      "verification_status": "provisional_secondary_crosscheck_primary_pdf_required",
+      "confidence": "medium",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "Reported by media and transcription; compare to official Gazette before marking verified."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-004",
+      "jurisdiction": "Malawi",
+      "offence_label": "Using an unregistered motor vehicle",
+      "statutory_reference": "Road Traffic Act s.11(2), as cited in transcription",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 100000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-007"
+      ],
+      "source_locator": "2026 schedule item 9, transcription copy",
+      "verification_status": "provisional_needs_primary_pdf_check",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "Transcription-only extraction; official Gazette comparison required."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-005",
+      "jurisdiction": "Malawi",
+      "offence_label": "Threatening or suggesting violence against an authorised officer",
+      "statutory_reference": "Road Traffic Act s.9(1)(b), as cited in transcription",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 500000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-007"
+      ],
+      "source_locator": "2026 schedule item 8, transcription copy",
+      "verification_status": "provisional_needs_primary_pdf_check",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "Transcription-only extraction; official Gazette comparison required."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-006",
+      "jurisdiction": "Malawi",
+      "offence_label": "Driving under influence of alcohol above 0.2 g per 210 litres of breath",
+      "statutory_reference": "Road Traffic Act s.128(1), exact schedule wording/subsection to verify",
+      "penalty_type": "reported_fine_or_imprisonment",
+      "amount_mwk": 300000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006",
+        "SRC-007"
+      ],
+      "source_locator": "Nation Online report dated 2026-05-13; transcription schedule row",
+      "verification_status": "conflict_requires_primary_source_review",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "News report says K300,000 or imprisonment up to three years; transcription appears to show K200,000 or imprisonment. Do not publish amount until official Gazette resolves discrepancy."
+    }
+  ]
+}

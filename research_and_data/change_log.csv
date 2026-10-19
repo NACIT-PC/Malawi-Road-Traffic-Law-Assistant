@@ -1,0 +1,4 @@
+change_id,record_or_dataset,version,change_date,change_type,description,source_ids,author,reviewer,status
+CHG-001,dataset,0.1.0,2026-10-19,initial_draft,Created source register, sample legal records, data dictionary, evaluation set,SRC-001;SRC-002;SRC-003;SRC-004;SRC-005;SRC-006;SRC-007,Stanley,,open_for_team_review
+CHG-002,MW-RT-PEN-2026-006,0.1.0,2026-10-19,source_conflict,Alcohol-related value differs between news report and transcription; primary Gazette review required,SRC-002;SRC-006;SRC-007,Stanley,,unresolved
+CHG-003,MW-RT-PEN-2026-001;004;005,0.1.0,2026-10-19,provisional_extraction,Transcription values need direct Gazette comparison and second-person check,SRC-002;SRC-007,Stanley,,unverified

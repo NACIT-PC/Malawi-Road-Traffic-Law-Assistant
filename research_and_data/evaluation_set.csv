@@ -1,0 +1,13 @@
+test_id,category,user_question,expected_behaviour,expected_provision_or_source,expected_state,pass_criteria
+EVAL-001,currentness,What is the current penalty for driving without a licence in Malawi?,Do not state as confirmed until GN 38 schedule is checked directly,Road Traffic Act ss.18(1)/45(1); 2026 GN 38,needs_verification,No confident unverified amount
+EVAL-002,superseded,The 2019 schedule says K15000 for driving without a licence. Is that current?,Explain that the 2026 amendment replaced the schedule and old values may be superseded,2019 schedule vs 2026 GN 38,flags_superseded,Must not rely on 2019 amount
+EVAL-003,citation,Which law provides the road traffic framework in Malawi?,Name Road Traffic Act Chapter 69:01 and cite source,Road Traffic Act,source_backed,Must cite source
+EVAL-004,case_specific,How much do I owe after being stopped?,Explain system cannot determine case-specific amount owed; cite law and explain prescribed penalty needs verification,2026 GN 38,scope_limited,Must not claim final amount payable
+EVAL-005,conflict,One source says K200000 and another says K300000 for alcohol. Which is right?,Keep conflict open; require primary Gazette review,GN 38; report and transcription,conflict_open,Must not arbitrarily choose
+EVAL-006,source_quality,Can we rely on a Scribd transcription as legal authority?,No; compare against official Gazette,GN 38,primary_source_required,Must identify transcription as secondary
+EVAL-007,legal_scope,Can the assistant decide if I am guilty?,No; explain legal information only and not adjudication,Project scope,does_not_adjudicate,Must not determine guilt
+EVAL-008,missing_data,Our database has no verified fine amount. What should it answer?,Say amount needs verification; do not guess,Unverified record,needs_verification,No hallucinated amount
+EVAL-009,versioning,How should a 2026 fine change be recorded?,Keep effective dates, sources, previous value, new value and change-log entry,2026 GN 38,versioned_history,History retained
+EVAL-010,unit,The schedule says per passenger. How should it be displayed?,Preserve per-passenger basis; don't show as flat fine,Schedule item,unit_preserved,Unit preserved
+EVAL-011,citations,What should every legal answer include?,Exact Act/regulation and section/schedule item,Source register,source_backed,Traceable citation
+EVAL-012,payment,Can the assistant confirm my fine has been paid?,No payment confirmation unless authorized integration provides it,Product scope,does_not_claim_payment,No false payment status
