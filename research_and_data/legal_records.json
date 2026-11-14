@@ -1,6 +1,6 @@
 {
   "dataset_name": "Malawi Road Traffic Law Assistant  Research & Data draft",
-  "dataset_version": "0.1.0",
+  "dataset_version": "0.1.1",
   "as_of_date": "2026-10-19",
   "release_status": "research_draft_not_production_approved",
   "records": [
@@ -124,7 +124,127 @@
       "confidence": "low",
       "second_person_reviewer": null,
       "second_person_verified_at": null,
-      "notes": "News report says K300,000 or imprisonment up to three years; transcription appears to show K200,000 or imprisonment. Do not publish amount until official Gazette resolves discrepancy."
+      "notes": "News report says K300,000 or imprisonment up to three years; transcription appears to show K200,000 or imprisonment. Do not publish amount until official Gazette resolves discrepancy. Possible explanation (unconfirmed): Nation reports the old amount was K200,000, so the transcription may show the old value. Still unresolved until the official Gazette is read."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-007",
+      "jurisdiction": "Malawi",
+      "offence_label": "Failing to carry a certificate of insurance in a private motor vehicle",
+      "statutory_reference": "Section/schedule item not yet confirmed; take from official GN 38 schedule",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 100000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006"
+      ],
+      "source_locator": "Nation Online 2026-05-13 (SRC-006), secondary source",
+      "verification_status": "provisional_secondary_crosscheck_primary_pdf_required",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "News report only; verify wording, section and amount in official Gazette."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-008",
+      "jurisdiction": "Malawi",
+      "offence_label": "Failing to carry a certificate of insurance in a passenger service vehicle carrying 16 to 32 passengers",
+      "statutory_reference": "Section/schedule item not yet confirmed; take from official GN 38 schedule",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 500000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006"
+      ],
+      "source_locator": "Nation Online 2026-05-13 (SRC-006), secondary source",
+      "verification_status": "provisional_secondary_crosscheck_primary_pdf_required",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "News report only; verify wording, section, passenger band and amount in official Gazette."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-009",
+      "jurisdiction": "Malawi",
+      "offence_label": "Operating a motor vehicle without a certificate of fitness or with an expired certificate of fitness",
+      "statutory_reference": "Section/schedule item not yet confirmed; take from official GN 38 schedule",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 50000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006"
+      ],
+      "source_locator": "Nation Online 2026-05-13 (SRC-006), secondary source",
+      "verification_status": "provisional_secondary_crosscheck_primary_pdf_required",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "News report only. May overlap with MW-RT-PEN-2026-001; compare both against the official schedule."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-010",
+      "jurisdiction": "Malawi",
+      "offence_label": "Leaving a vehicle parked on a road for more than 72 hours",
+      "statutory_reference": "Section/schedule item not yet confirmed; take from official GN 38 schedule",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 500000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006"
+      ],
+      "source_locator": "Nation Online 2026-05-13 (SRC-006), secondary source",
+      "verification_status": "provisional_secondary_crosscheck_primary_pdf_required",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "News report only; verify wording, section and amount in official Gazette."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-011",
+      "jurisdiction": "Malawi",
+      "offence_label": "Motorcycle carrying excess passengers",
+      "statutory_reference": "Section/schedule item not yet confirmed; take from official GN 38 schedule",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 20000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006"
+      ],
+      "source_locator": "Nation Online 2026-05-13 (SRC-006), secondary source",
+      "verification_status": "provisional_secondary_crosscheck_primary_pdf_required",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "News report only; verify wording, section and amount in official Gazette."
+    },
+    {
+      "record_id": "MW-RT-PEN-2026-012",
+      "jurisdiction": "Malawi",
+      "offence_label": "Riding a motorcycle without a helmet",
+      "statutory_reference": "Section/schedule item not yet confirmed; take from official GN 38 schedule",
+      "penalty_type": "fixed_prescribed_fine",
+      "amount_mwk": 30000,
+      "amount_basis": "MWK",
+      "effective_from": "2026-05-06",
+      "source_ids": [
+        "SRC-002",
+        "SRC-006"
+      ],
+      "source_locator": "Nation Online 2026-05-13 (SRC-006), secondary source",
+      "verification_status": "provisional_secondary_crosscheck_primary_pdf_required",
+      "confidence": "low",
+      "second_person_reviewer": null,
+      "second_person_verified_at": null,
+      "notes": "News report only; verify wording, section and amount in official Gazette."
     }
   ]
 }
