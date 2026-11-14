@@ -21,7 +21,7 @@ function safeHttpUrl(value) {
 }
 
 function citationLink(citation) {
-    const link = element("a", "citation-link", `${citation.title} — ${citation.provision}`);
+    const link = element("a", "citation-link", `${citation.title}  ${citation.provision}`);
     const officialUrl = safeHttpUrl(citation.url);
     if (officialUrl) {
         link.href = officialUrl;
@@ -279,7 +279,7 @@ function renderSourceDetail(detailArea, source) {
         detailArea.append(element("h3", "provision-heading", "Available provisions"));
         source.provisions.forEach((provision) => {
             const section = element("section", "provision");
-            section.append(element("h4", "", `${provision.provision} — ${provision.topic}`));
+            section.append(element("h4", "", `${provision.provision}  ${provision.topic}`));
             section.append(element("p", "", provision.text));
             if (provision.penalty) section.append(element("p", "source-meta", `Penalty recorded: ${provision.penalty}`));
             if (provision.conditions?.length) {

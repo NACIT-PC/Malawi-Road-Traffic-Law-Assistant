@@ -18,6 +18,17 @@ If PowerShell prevents activation, run the virtual environment's Python directly
 .\.venv\Scripts\python.exe -m pip install -r pipelines_and_ai_engineering\requirements.txt
 ```
 
+Install and build the React frontend once from the repository root:
+
+```powershell
+Set-Location frontend
+npm ci
+npm run build
+Set-Location ..
+```
+
+For frontend-only development, run `npm run dev` from `frontend\`. Vite serves the React app at `http://127.0.0.1:5173/` and proxies `/api` requests to the local backend on port 8000. The backend-served site at port 8000 uses the production build in `frontend\dist\`.
+
 ## 2. Configure the API
 
 Create a root `.env` file from `.env.example`, then set:
@@ -90,7 +101,7 @@ Leave that window open while using the API. In a second PowerShell window, open 
 Start-Process "http://127.0.0.1:8000/docs"
 ```
 
-The frontend is served from the same origin at `http://127.0.0.1:8000/`. The interactive API page lets you expand an endpoint, select **Try it out**, enter a request body, and select **Execute**. The raw OpenAPI schema is at `http://127.0.0.1:8000/openapi.json`.
+The React frontend is served from the same origin at `http://127.0.0.1:8000/`. The interactive API page lets you expand an endpoint, select **Try it out**, enter a request body, and select **Execute**. The raw OpenAPI schema is at `http://127.0.0.1:8000/openapi.json`.
 
 You can also check the running service from the second window:
 
@@ -114,7 +125,7 @@ The server is bound to `127.0.0.1` for local use. Do not expose the development 
 | Method and path | Purpose |
 |---|---|
 | `GET /` | Serves the frontend home page. |
-| `GET /{frontend asset}` | Serves frontend pages and assets from `frontend\`. |
+| `GET /{frontend route or asset}` | Serves the React app and built assets from `frontend\dist\`. |
 | `POST /api/ask` | Accepts `{"question":"..."}`; returns a supported or insufficient-evidence answer and citations. |
 | `GET /api/sources` | Lists source metadata from the loaded corpus. |
 | `GET /api/sources/{source_id}` | Returns source details and verified/current provisions. Unknown IDs return 404. |

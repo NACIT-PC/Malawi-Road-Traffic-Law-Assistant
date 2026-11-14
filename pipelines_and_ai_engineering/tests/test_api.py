@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -293,25 +294,32 @@ class OtherEndpointTests(unittest.TestCase):
             response = client.get("/api/health")
 
         self.assertEqual(root_response.status_code, 200)
-        self.assertIn("Malawi Road Traffic Law Assistant", root_response.text)
-        self.assertIn("What would you like to understand?", root_response.text)
+        self.assertIn("MRTLA Malawi", root_response.text)
+        self.assertIn('id="root"', root_response.text)
         self.assertTrue(root_response.headers["x-request-id"])
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"status": "ok"})
         self.assertTrue(response.headers["x-request-id"])
 
-    def test_frontend_pages_and_assets_are_served(self) -> None:
+    def test_react_routes_and_built_assets_are_served(self) -> None:
+        if not Path("frontend/dist/index.html").is_file():
+            self.skipTest("Build the React frontend before testing its production routes.")
+
         with make_client() as client:
             page = client.get("/Ask.html")
-            stylesheet = client.get("/road.css")
-            script = client.get("/app.js")
+            article_page = client.get("/articles/how-to-read-a-legal-source")
+            missing_asset = client.get("/assets/missing.js")
+            asset_paths = re.findall(r'(?:src|href)="(/assets/[^"]+)"', page.text)
+            assets = [client.get(path) for path in asset_paths]
 
         self.assertEqual(page.status_code, 200)
-        self.assertIn("Ask about a road traffic rule", page.text)
-        self.assertEqual(stylesheet.status_code, 200)
-        self.assertIn("system-ui", stylesheet.text)
-        self.assertEqual(script.status_code, 200)
-        self.assertIn("/api/ask", script.text)
+        self.assertIn('id="root"', page.text)
+        self.assertEqual(article_page.status_code, 200)
+        self.assertIn('id="root"', article_page.text)
+        self.assertEqual(missing_asset.status_code, 404)
+        self.assertEqual(len(assets), 2)
+        self.assertTrue(all(asset.status_code == 200 for asset in assets))
+        self.assertIn("/api/ask", assets[0].text + assets[1].text)
 
     def test_unexpected_route_error_uses_safe_generic_response(self) -> None:
         records = (evidence(),)

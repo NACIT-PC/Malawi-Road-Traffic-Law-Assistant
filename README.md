@@ -370,3 +370,7 @@ that a fine has been issued, or legal advice. The applicable law, the
 facts of the incident, and decisions by authorized officials determine
 the outcome. Users should verify fines and make payments only through
 official channels confirmed by the responsible authorities.
+
+## 18. Draft legal documents
+
+The project includes draft Terms of Service, Privacy Policy, End User Licence Agreement, Disclaimer, Cookie Policy, Acceptable Use Policy, and a conditional Data Processing Agreement template. Review the [legal draft index](Docs/Legal/README.md) and its completion checklist. These documents are not approved legal terms; replace contact/operator placeholders, verify the production data flows and vendors, and obtain review by a Malawi-qualified legal professional before publication.

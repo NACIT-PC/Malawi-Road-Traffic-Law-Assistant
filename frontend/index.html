@@ -1,87 +1,17 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ask questions about Malawi road traffic law and review the sources behind each answer.">
-    <meta name="theme-color" content="#f8f9fa">
-    <title>Malawi Traffic Law Assistant</title>
-    <link rel="stylesheet" href="/road.css">
-    <script src="/app.js" defer></script>
-</head>
-<body class="chat-page">
-    <div class="banner chat-banner" role="note">Independent legal information only. Not a government service, legal ruling, fine notice, or payment service.</div>
-    <div class="chat-layout">
-        <aside class="chat-sidebar" aria-label="Assistant navigation">
-            <a class="chat-brand" href="/" aria-label="Malawi Traffic Law Assistant home">
-                <span class="brand-mark" aria-hidden="true">M</span>
-                <span>Malawi Traffic<br>Law Assistant</span>
-            </a>
-            <a class="new-chat" href="/" aria-current="page">
-                <span aria-hidden="true">＋</span> New question
-            </a>
-            <p class="sidebar-label">Explore</p>
-            <nav class="sidebar-nav" aria-label="Explore">
-                <a href="/how-it-works.html"><span aria-hidden="true">◎</span> How it works</a>
-                <a href="/legal-sources.html"><span aria-hidden="true">▤</span> Legal sources</a>
-                <a href="/about.html"><span aria-hidden="true">ⓘ</span> About &amp; limitations</a>
-            </nav>
-            <div class="sidebar-note">
-                <span class="status-dot" aria-hidden="true"></span>
-                <div><strong>Evidence-led answers</strong><br><span>Check every citation before relying on it.</span></div>
-            </div>
-        </aside>
-
-        <main class="chat-main">
-            <header class="chat-topbar">
-                <a class="mobile-brand" href="/">Malawi Traffic Law Assistant</a>
-                <span class="jurisdiction-badge"><span aria-hidden="true">●</span> Malawi road traffic law</span>
-            </header>
-
-            <section class="chat-content" aria-label="Legal assistant conversation">
-                <div class="chat-welcome">
-                    <span class="welcome-mark" aria-hidden="true">M</span>
-                    <p class="eyebrow">Your road-law guide</p>
-                    <h1>What would you like to understand?</h1>
-                    <p class="welcome-copy">Ask in your own words. I’ll look for supporting legal sources and show what the available evidence says.</p>
-                </div>
-
-                <div class="card chat-panel">
-                    <form class="question-form chat-form" data-ask-form>
-                        <label class="sr-only" for="home-question">Your road traffic law question</label>
-                        <textarea id="home-question" name="question" rows="2" maxlength="2000" required placeholder="Ask a question about Malawi road traffic law..." aria-describedby="question-help"></textarea>
-                        <div class="composer-footer">
-                            <span id="question-help" class="composer-help">Avoid sharing personal or sensitive information.</span>
-                            <button class="send-button" type="submit" aria-label="Send question">
-                                <span class="send-label">Ask</span>
-                                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15V5m0 0L5.5 9.5M10 5l4.5 4.5"/></svg>
-                            </button>
-                        </div>
-                    </form>
-
-                    <div class="prompt-suggestions" aria-label="Example questions">
-                        <p>Not sure where to start?</p>
-                        <div class="prompt-grid">
-                            <button class="example-question" type="button" data-question="What does Malawi's road traffic law say about driving without a valid licence?">
-                                <span class="prompt-icon" aria-hidden="true">↗</span>
-                                <span>Driving without a valid licence</span>
-                            </button>
-                            <button class="example-question" type="button" data-question="Which legal provision covers this traffic rule?">
-                                <span class="prompt-icon" aria-hidden="true">§</span>
-                                <span>Find a relevant legal provision</span>
-                            </button>
-                            <button class="example-question" type="button" data-question="How can I verify the official procedure for a traffic fine?">
-                                <span class="prompt-icon" aria-hidden="true">✓</span>
-                                <span>Verify an official procedure</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="answer-area chat-answers" data-answer-area aria-live="polite"></div>
-                </div>
-
-                <p class="chat-disclaimer">AI can make mistakes. This assistant does not determine guilt or confirm that a fine was issued. <a href="/about.html">Learn about its limitations</a>.</p>
-            </section>
-        </main>
-    </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Explore Malawi road traffic law, understand legal sources, and ask an evidence-led assistant."
+    />
+    <meta name="theme-color" content="#f7f8fc" />
+    <title>MRTLA Malawi | Road Traffic Law Assistant</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

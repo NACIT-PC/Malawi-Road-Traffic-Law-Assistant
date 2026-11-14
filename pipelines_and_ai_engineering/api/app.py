@@ -6,6 +6,7 @@ import threading
 import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
+from pathlib import Path
 from typing import AsyncGenerator, Dict, Optional, Sequence, Tuple
 from urllib.parse import urlsplit
 from uuid import uuid4
@@ -15,7 +16,6 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, Response
-from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
@@ -546,15 +546,32 @@ def create_app(
     def health() -> Dict[str, str]:
         return {"status": "ok"}
 
-    @application.get("/", include_in_schema=False)
-    def frontend_home() -> FileResponse:
-        return FileResponse(PROJECT_ROOT / "frontend" / "index.html")
+    frontend_build = (PROJECT_ROOT / "frontend" / "dist").resolve()
+    frontend_index = frontend_build / "index.html"
+    legacy_frontend_paths = {
+        "Ask.html",
+        "road.html",
+        "legal-sources.html",
+        "how-it-works.html",
+        "about.html",
+    }
 
-    application.mount(
-        "/",
-        StaticFiles(directory=str(PROJECT_ROOT / "frontend")),
-        name="frontend",
-    )
+    @application.get("/", include_in_schema=False)
+    @application.get("/{frontend_path:path}", include_in_schema=False)
+    def frontend_page(frontend_path: str = "") -> FileResponse:
+        candidate = (frontend_build / frontend_path).resolve()
+        try:
+            candidate.relative_to(frontend_build)
+        except ValueError as exc:
+            raise HTTPException(status_code=404) from exc
+
+        if frontend_path and candidate.is_file():
+            return FileResponse(candidate)
+        if frontend_path and Path(frontend_path).suffix and frontend_path not in legacy_frontend_paths:
+            raise HTTPException(status_code=404)
+        if not frontend_index.is_file():
+            raise HTTPException(status_code=503, detail="Frontend build is unavailable.")
+        return FileResponse(frontend_index)
 
     return application
 

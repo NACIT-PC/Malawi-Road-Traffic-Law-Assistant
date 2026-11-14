@@ -1,3 +1,11 @@
+FROM node:22-alpine AS frontend-build
+
+WORKDIR /workspace/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend/ ./
+RUN npm run build
+
 FROM python:3.13-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -9,8 +17,8 @@ COPY pipelines_and_ai_engineering/requirements.txt pipelines_and_ai_engineering/
 RUN pip install --no-cache-dir -r pipelines_and_ai_engineering/requirements.txt
 
 COPY pipelines_and_ai_engineering pipelines_and_ai_engineering
-# The API mounts frontend/ at startup, so it must exist in the image.
 COPY frontend frontend
+COPY --from=frontend-build /workspace/frontend/dist frontend/dist
 # research_and_data/ is mounted by docker-compose so legal data updates need only a restart.
 
 RUN useradd --create-home appuser
