@@ -21,6 +21,10 @@ class LegalSource:
     def is_usable(self) -> bool:
         return self.verification_status == "verified" and self.validity_status == "current"
 
+    @property
+    def is_provisional(self) -> bool:
+        return self.verification_status == "provisional" and self.validity_status == "current"
+
 
 @dataclass(frozen=True)
 class LegalEvidence:

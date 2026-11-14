@@ -26,6 +26,12 @@ NO_EVIDENCE_MESSAGE = (
 
 _CITATION_PATTERN = re.compile(r"\[E([0-9]+)\]")
 
+PROVISIONAL_NOTICE = (
+    "\n\nNote: some of this information is provisional and has not yet been verified "
+    "against the official Government Gazette (GN 38 of 2026). Please confirm it with the "
+    "Directorate of Road Traffic and Safety Services before relying on it."
+)
+
 
 def _build_prompt(question: str, evidence: Sequence[RetrievedEvidence]) -> str:
     sections = [
@@ -37,6 +43,7 @@ def _build_prompt(question: str, evidence: Sequence[RetrievedEvidence]) -> str:
         "If the evidence or facts are insufficient, say so and ask one focused clarification if needed.",
         "Cite each legal claim with the exact evidence label, for example [E1]. Do not create labels.",
         "Do not claim to process or confirm payment. Do not use outside knowledge or web sources.",
+        "Evidence whose verification status is not 'verified' is provisional: say clearly that it is provisional and unverified, never present it as confirmed, and say the exact amount must be confirmed against the official Gazette.",
         "",
         "USER QUESTION:",
         question.strip(),
@@ -52,6 +59,7 @@ def _build_prompt(question: str, evidence: Sequence[RetrievedEvidence]) -> str:
                 f"Source: {item.source.title} (source ID: {item.source.source_id})",
                 f"Provision: {item.provision}",
                 f"Topic: {item.topic}",
+                f"Verification status: {item.source.verification_status}",
                 f"Penalty: {item.penalty or 'Not supplied in this record'}",
                 f"Conditions: {'; '.join(item.conditions) or 'None supplied in this record'}",
                 f"Text: {item.text}",
@@ -91,7 +99,9 @@ class LegalAssistant:
     @classmethod
     def from_config(cls, config: EngineConfig) -> "LegalAssistant":
         records = JsonlCorpus.load(config.corpus_path)
-        retriever = LexicalEvidenceRetriever(records, config.minimum_relevance)
+        retriever = LexicalEvidenceRetriever(
+            records, config.minimum_relevance, config.allow_provisional
+        )
         generator = GeminiTextGenerator(config)
         return cls(retriever, generator, config.retrieval_limit)
 
@@ -124,4 +134,6 @@ class LegalAssistant:
         citations = tuple(
             _citation_for(labels[label]) for label in used_labels
         )
+        if any(not labels[label].source.is_usable for label in used_labels):
+            answer = answer.rstrip() + PROVISIONAL_NOTICE
         return AssistantResult(status="answered", answer=answer, citations=citations)

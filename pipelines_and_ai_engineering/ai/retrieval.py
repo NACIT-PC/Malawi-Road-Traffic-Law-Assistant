@@ -34,11 +34,17 @@ class EvidenceRetriever(Protocol):
 class LexicalEvidenceRetriever:
     """Dependency-free starter retriever over approved evidence records."""
 
-    def __init__(self, records: Sequence[LegalEvidence], minimum_relevance: float = 0.25) -> None:
+    def __init__(
+        self,
+        records: Sequence[LegalEvidence],
+        minimum_relevance: float = 0.25,
+        allow_provisional: bool = False,
+    ) -> None:
         if not 0.0 <= minimum_relevance <= 1.0:
             raise ValueError("minimum_relevance must be between 0 and 1")
         self._records = tuple(records)
         self._minimum_relevance = minimum_relevance
+        self._allow_provisional = allow_provisional
 
     def retrieve(self, question: str, limit: int = 5) -> Tuple[RetrievedEvidence, ...]:
         if limit < 1:
@@ -49,7 +55,10 @@ class LexicalEvidenceRetriever:
 
         candidates = []
         for evidence in self._records:
-            if not evidence.source.is_usable:
+            if not (
+                evidence.source.is_usable
+                or (self._allow_provisional and evidence.source.is_provisional)
+            ):
                 continue
             searchable_text = " ".join(
                 (evidence.topic, evidence.provision, evidence.text, evidence.source.title)

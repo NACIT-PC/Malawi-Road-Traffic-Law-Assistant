@@ -21,6 +21,7 @@ class EngineConfig:
     retrieval_limit: int = 5
     minimum_relevance: float = 0.25
     timeout_ms: int = 30000
+    allow_provisional: bool = False
 
     @classmethod
     def from_environment(cls, environ: Optional[Mapping[str, str]] = None) -> "EngineConfig":
@@ -57,4 +58,5 @@ class EngineConfig:
             corpus_path=values.get("LEGAL_CORPUS_PATH", "research_and_data/legal_corpus.jsonl"),
             retrieval_limit=retrieval_limit,
             minimum_relevance=minimum_relevance,
+            allow_provisional=values.get("ALLOW_PROVISIONAL", "false").strip().lower() in {"1", "true", "yes"},
         )

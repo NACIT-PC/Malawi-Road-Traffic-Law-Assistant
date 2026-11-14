@@ -310,7 +310,7 @@ def create_app(
             application.state.runtime = Runtime(
                 assistant=LegalAssistant(
                     retriever=LexicalEvidenceRetriever(
-                        corpus_records, config.minimum_relevance
+                        corpus_records, config.minimum_relevance, config.allow_provisional
                     ),
                     generator=GeminiTextGenerator(config),
                     retrieval_limit=config.retrieval_limit,
