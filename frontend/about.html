@@ -1,38 +1,49 @@
 <!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-        <title>
-            Malawi Road Traffic Law Assistant
-        </title>
-
-        <link rel="stylesheet" href="road.css"/>
-
-    </head>
-    <body>
-        
-        <div class="banner">
-            Independent AI assistant. Not an official government service. Answers are not legal rulings or official notices.
-        </div>
-
-        <!--This shows up as the heading of the page-->
-
-        <header>
-            <h1>Malawi Road Traffic Law Assistant</h1>
-        </header>
-
-        <!--This is for the nav bar contents-->
-
-        <nav>
-            <a href="road.html">Home</a>
-            <a href="Ask.html">Ask a Question</a>
-            <a href="how-it-works.html">How It Works</a>
-            <a href="legal-sources.html">Legal Sources</a>
-            <a href="about.html" class="active">About & Limitations</a>
-        </nav>
-
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Purpose, limitations, and reporting information for the Malawi Road Traffic Law Assistant.">
+    <title>About &amp; Limitations | Malawi Road Traffic Law Assistant</title>
+    <link rel="stylesheet" href="/road.css">
+</head>
+<body>
+    <div class="banner" role="note">Independent legal information tool. Not a government service, legal ruling, fine notice, or payment service.</div>
+    <header class="site-header"><a class="brand" href="/">Malawi Road Traffic Law Assistant</a></header>
+    <nav aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/Ask.html">Ask a Question</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/legal-sources.html">Legal Sources</a>
+        <a href="/about.html" aria-current="page">About &amp; Limitations</a>
+    </nav>
+    <main class="container">
+        <section class="page-heading">
+            <p class="eyebrow">About this service</p>
+            <h1>About &amp; limitations</h1>
+            <p>This prototype helps people explore information about Malawi road traffic law using records supplied to its backend.</p>
+        </section>
+        <section class="card content-card">
+            <h2>How sources are used</h2>
+            <p>The backend retrieves relevant entries from its configured legal corpus and uses eligible evidence to prepare a response. Citations are provided so you can inspect the identified source and provision. A citation does not by itself establish that a rule applies to your circumstances.</p>
+            <p>Some questions cannot be answered reliably if the corpus has no relevant verified record. In that case, the assistant should state that evidence is insufficient rather than invent a rule or penalty.</p>
+        </section>
+        <section class="notice">
+            <h2>Important limitations</h2>
+            <ul>
+                <li>This is general legal information, not legal advice or an official determination.</li>
+                <li>The assistant does not determine guilt, issue or cancel fines, process payments, or confirm that a fine has been paid.</li>
+                <li>The current API does not implement conflict detection, outdated-source detection, clarification prompts, structured penalty lookup, or official next-step lookup.</li>
+                <li>Do not rely on an answer as an official notice. Confirm important details through an authorized official channel.</li>
+                <li>Do not enter personal identification, driving licence, or payment information.</li>
+            </ul>
+        </section>
+        <section class="card content-card">
+            <h2>Report a problem</h2>
+            <p>Answer screens provide a reporting form for incorrect answers or citations. The current backend validates reports but does not store them and responds with an unavailable error. A report is not submitted unless the interface explicitly confirms success; do not include personal or sensitive information.</p>
+        </section>
+        <p class="actions"><a class="button-link" href="/Ask.html">Ask a question</a> <a href="/legal-sources.html">Inspect available sources</a></p>
+    </main>
+    <footer><a href="/">Home</a><span>Independent prototype; no government endorsement is implied.</span></footer>
+</body>
 </html>

@@ -293,11 +293,25 @@ class OtherEndpointTests(unittest.TestCase):
             response = client.get("/api/health")
 
         self.assertEqual(root_response.status_code, 200)
-        self.assertEqual(root_response.json(), {"status": "ok"})
+        self.assertIn("Malawi Road Traffic Law Assistant", root_response.text)
+        self.assertIn("What would you like to understand?", root_response.text)
         self.assertTrue(root_response.headers["x-request-id"])
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"status": "ok"})
         self.assertTrue(response.headers["x-request-id"])
+
+    def test_frontend_pages_and_assets_are_served(self) -> None:
+        with make_client() as client:
+            page = client.get("/Ask.html")
+            stylesheet = client.get("/road.css")
+            script = client.get("/app.js")
+
+        self.assertEqual(page.status_code, 200)
+        self.assertIn("Ask about a road traffic rule", page.text)
+        self.assertEqual(stylesheet.status_code, 200)
+        self.assertIn("system-ui", stylesheet.text)
+        self.assertEqual(script.status_code, 200)
+        self.assertIn("/api/ask", script.text)
 
     def test_unexpected_route_error_uses_safe_generic_response(self) -> None:
         records = (evidence(),)

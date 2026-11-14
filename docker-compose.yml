@@ -1,0 +1,41 @@
+# Mirrors "The Starcks diagram": only the proxy is public; frontend and backend sit on a private network.
+services:
+  backend:
+    build: .
+    env_file: .env
+    restart: unless-stopped
+    expose:
+      - "8000"
+    volumes:
+      - ./research_and_data:/app/research_and_data:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks: [private]
+
+  frontend:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    networks: [private]
+
+  proxy:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "8080:80"   # for production use 80:80 and 443:443 (see deploy/nginx.conf)
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+    networks: [private]
+
+networks:
+  private: {}

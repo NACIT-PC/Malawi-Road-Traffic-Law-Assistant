@@ -1,38 +1,39 @@
 <!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-        <title>
-            Malawi Road Traffic Law Assistant
-        </title>
-
-        <link rel="stylesheet" href="road.css"/>
-
-    </head>
-    <body>
-        
-        <div class="banner">
-            Independent AI assistant. Not an official government service. Answers are not legal rulings or official notices.
-        </div>
-
-        <!--This shows up as the heading of the page-->
-
-        <header>
-            <h1>Malawi Road Traffic Law Assistant</h1>
-        </header>
-
-        <!--This is for the nav bar contents-->
-
-        <nav>
-            <a href="road.html">Home</a>
-            <a href="Ask.html"">Ask a Question</a>
-            <a href="how-it-works.html" class="active">How It Works</a>
-            <a href="legal-sources.html">Legal Sources</a>
-            <a href="about.html">About & Limitations</a>
-        </nav>
-
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Learn how the Malawi Road Traffic Law Assistant retrieves legal evidence and presents answers.">
+    <title>How It Works | Malawi Road Traffic Law Assistant</title>
+    <link rel="stylesheet" href="/road.css">
+</head>
+<body>
+    <div class="banner" role="note">Independent legal information tool. Not a government service, legal ruling, fine notice, or payment service.</div>
+    <header class="site-header"><a class="brand" href="/">Malawi Road Traffic Law Assistant</a></header>
+    <nav aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/Ask.html">Ask a Question</a>
+        <a href="/how-it-works.html" aria-current="page">How It Works</a>
+        <a href="/legal-sources.html">Legal Sources</a>
+        <a href="/about.html">About &amp; Limitations</a>
+    </nav>
+    <main class="container">
+        <section class="page-heading">
+            <p class="eyebrow">The answer pipeline</p>
+            <h1>How it works</h1>
+            <p>The assistant uses a backend retrieval-and-generation pipeline. Its response is informational and depends on the legal records made available to the service.</p>
+        </section>
+        <ol class="steps">
+            <li><span>1</span><div><h2>Ask a general question</h2><p>Submit a road traffic law question without personal or payment details.</p></div></li>
+            <li><span>2</span><div><h2>Retrieve available evidence</h2><p>The backend searches its configured legal corpus. Only records marked verified and current are eligible for answer generation.</p></div></li>
+            <li><span>3</span><div><h2>Review the response and citations</h2><p>When evidence is available, the response includes citations that can be inspected through the Legal Sources page. When evidence is insufficient, the backend returns a limitation response instead of a supported answer.</p></div></li>
+        </ol>
+        <section class="notice">
+            <h2>Current prototype limitations</h2>
+            <p>The API currently returns supported or insufficient-evidence results. Automated conflict detection, outdated-source detection, clarification questions, structured penalty lookup, and official next-step lookup are not implemented. A response must not be interpreted as confirmation of an applicable fine.</p>
+        </section>
+        <p class="actions"><a class="button-link" href="/Ask.html">Ask a question</a> <a href="/legal-sources.html">Browse legal sources</a></p>
+    </main>
+    <footer><a href="/about.html">About &amp; limitations</a><span>Evidence and source status depend on the configured corpus.</span></footer>
+</body>
 </html>

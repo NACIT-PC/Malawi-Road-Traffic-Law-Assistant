@@ -1,38 +1,39 @@
 <!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-        <title>
-            Malawi Road Traffic Law Assistant
-        </title>
-
-        <link rel="stylesheet" href="road.css"/>
-
-    </head>
-    <body>
-        
-        <div class="banner">
-            Independent AI assistant. Not an official government service. Answers are not legal rulings or official notices.
-        </div>
-
-        <!--This shows up as the heading of the page-->
-
-        <header>
-            <h1>Malawi Road Traffic Law Assistant</h1>
-        </header>
-
-        <!--This is for the nav bar contents-->
-
-        <nav>
-            <a href="road.html">Home</a>
-            <a href="Ask.html" >Ask a Question</a>
-            <a href="how-it-works.html">How It Works</a>
-            <a href="legal-sources.html"class="active">Legal Sources</a>
-            <a href="about.html">About & Limitations</a>
-        </nav>
-
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Browse legal source records provided by the Malawi Road Traffic Law Assistant backend.">
+    <title>Legal Sources | Malawi Road Traffic Law Assistant</title>
+    <link rel="stylesheet" href="/road.css">
+    <script src="/app.js" defer></script>
+</head>
+<body>
+    <div class="banner" role="note">Independent legal information tool. Not a government service, legal ruling, fine notice, or payment service.</div>
+    <header class="site-header"><a class="brand" href="/">Malawi Road Traffic Law Assistant</a></header>
+    <nav aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/Ask.html">Ask a Question</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/legal-sources.html" aria-current="page">Legal Sources</a>
+        <a href="/about.html">About &amp; Limitations</a>
+    </nav>
+    <main class="container">
+        <section class="page-heading">
+            <p class="eyebrow">Source register</p>
+            <h1>Legal sources</h1>
+            <p>Source records below are loaded from the backend. Availability, verification status, dates, and links depend on the configured corpus.</p>
+        </section>
+        <div class="status-message" data-sources-status role="status" aria-live="polite">Loading source records…</div>
+        <section class="source-layout">
+            <div class="source-list" data-source-list aria-label="Available legal sources"></div>
+            <article class="card source-detail" data-source-detail aria-live="polite">
+                <h2>Select a source</h2>
+                <p>Source metadata and provisions will appear here when available.</p>
+            </article>
+        </section>
+        <p class="muted">A source record is not a substitute for checking the applicable official legal instrument.</p>
+    </main>
+    <footer><a href="/about.html">About &amp; limitations</a><span>Only links supplied by the source record are shown.</span></footer>
+</body>
 </html>

@@ -1,99 +1,59 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ask questions about Malawi road traffic law and inspect the legal sources behind answers.">
+    <title>Malawi Road Traffic Law Assistant</title>
+    <link rel="stylesheet" href="/road.css">
+    <script src="/app.js" defer></script>
+</head>
+<body>
+    <div class="banner" role="note">Independent legal information tool. Not a government service, legal ruling, fine notice, or payment service.</div>
+    <header class="site-header"><a class="brand" href="/">Malawi Road Traffic Law Assistant</a></header>
+    <nav aria-label="Main navigation">
+        <a href="/" aria-current="page">Home</a>
+        <a href="/Ask.html">Ask a Question</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/legal-sources.html">Legal Sources</a>
+        <a href="/about.html">About &amp; Limitations</a>
+    </nav>
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Road traffic law information for Malawi</p>
+            <h1>Understand the rule. Check the source.</h1>
+            <p>Ask a question in everyday language. Answers are generated from available legal records, with source references when evidence is found.</p>
+        </section>
 
-    <head>
-
-        <meta charset="UTF-8" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-        <title>
-            Malawi Road Traffic Law Assistant
-        </title>
-
-        <link rel="stylesheet" href="road.css" />
-
-    </head>
-
-    <!--This is the body-->
-
-    <body>
-
-        <div class="banner">
-            Independent AI assistant. Not an official government service. Answers are not legal rulings or official notices.
-        </div>
-
-        <!--This shows up as the heading of the page-->
-
-        <header>
-            <h1>Malawi Road Traffic Law Assistant</h1>
-        </header>
-
-        <!--This is for the nav bar contents-->
-
-        <nav>
-            <a href="road.html" class="active">Home</a>
-            <a href="Ask.html">Ask a Question</a>
-            <a href="how-it-works.html">How It Works</a>
-            <a href="legal-sources.html">Legal Sources</a>
-            <a href="about.html">About & Limitations</a>
-        </nav>
-
-        <main class="container">
-            <div class="card">
-                <h2>Ask about a traffic rule or fine</h2>
-                <input type="text" placeholder="e.g. What is the fine for driving without a licence?" />
-                <button> 
-                    Ask here
-                    <a href="Ask.html"></a>
-                </button>
+        <section class="card" aria-labelledby="question-heading">
+            <h2 id="question-heading">What would you like to know?</h2>
+            <form class="question-form" data-ask-form>
+                <label for="home-question">Your question</label>
+                <textarea id="home-question" name="question" rows="3" maxlength="2000" required placeholder="Ask about a road traffic rule or legal provision"></textarea>
+                <button type="submit">Ask the assistant</button>
+            </form>
+            <div class="examples" aria-label="Example questions">
+                <p class="muted">Try an example:</p>
+                <button class="example-question" type="button" data-question="What does the law say about driving with a valid licence?">Driving with a valid licence</button>
+                <button class="example-question" type="button" data-question="Which legal provision covers this traffic rule?">Find a legal provision</button>
+                <button class="example-question" type="button" data-question="Where can I verify the official procedure for a traffic fine?">Verify an official procedure</button>
             </div>
+            <div class="answer-area" data-answer-area aria-live="polite"></div>
+        </section>
 
-            <!-- Example Answer View -->    
-
-            <div class="card">
-
-                <span class="status status-sufficient">
-                    Sufficient evidence
-                </span>
-
-                <h3>
-                    Driving without a valid licence
-                </h3>
-
-                <div class="fine">
-                    Prescribed fine: K200,000
-                </div>
-
-                <p>
-                    According to the Road Traffic (Prescribed Offences and Penalties) (Amendment) Regulations, 2026, driving a motor vehicle without a driving licence or professional driving permit is a prescribed offence with a fine of K200,000.
-                </p>
-
-                <div class="warning">
-                    This explanation is generated from retrieved legal sources. It is not an official decision, ruling, or payment instruction from the Directorate of Road Traffic and Safety Services or the Malawi Police Service.
-                </div>
-
-            </div>
-
-            <div>
-
-                <h4>Sources</h4>
-                <a href="#" class="citation">
-                    Road Traffic (Prescribed Offences and Penalties) (Amendment) Regulations, 2026 — GN No. 38(eg purpose)
-                </a>
-
-                <a href="#" class="citation">
-                    Road Traffic Act, Cap. 69:01, s. 18(eg purpose)
-                </a>
-
-                
-                <p class="note">
-                    Always confirm the exact amount and payment method with an official Payment Reference Number (PRN) from an authorised officer.
-                </p> 
-            
-               
-            </div>
-        </main>
-    </body>
+        <section class="info-grid">
+            <article class="card">
+                <h2>Evidence, not guesses</h2>
+                <p>The assistant can return an insufficient-evidence response. It should not be treated as confirmation that a specific fine applies.</p>
+                <a href="/how-it-works.html">How answers are prepared</a>
+            </article>
+            <article class="card">
+                <h2>Inspect the source</h2>
+                <p>Browse source records and the available provision details supplied by the backend.</p>
+                <a href="/legal-sources.html">Browse legal sources</a>
+            </article>
+        </section>
+    </main>
+    <footer><a href="/about.html">About &amp; limitations</a><span>Legal information only; confirm important matters through an authorized official channel.</span></footer>
+</body>
 </html>

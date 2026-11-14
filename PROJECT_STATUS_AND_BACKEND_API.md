@@ -1,13 +1,13 @@
 # Project Status, API Design, and Backend Structure
 
-**Reviewed:** 19 October 2026
+**Reviewed:** 5 November 2026
 **Project:** Malawi Road Traffic Law Assistant
 
 ## Executive summary
 
-This repository contains the product and technical design for a public-facing assistant that explains Malawi road-traffic law using verified legal sources. The implemented software includes a standalone Python retrieval-and-generation engine and a FastAPI layer that wraps it, exposes source metadata, and provides liveness status.
+This repository contains the product and technical design for a public-facing assistant that explains Malawi road-traffic law using verified legal sources. The implemented software includes a standalone Python retrieval-and-generation engine, a FastAPI service, and a static web frontend served by the API on the same origin.
 
-The API routes for questions, source listing/details, report submission, and liveness are implemented. However, there is no legal corpus, report store, database, ingestion worker, frontend, or end-to-end deployment in this checkout. The implementation should therefore be described as an API-enabled AI-engine prototype, not a complete public-facing MVP.
+The frontend includes the Home, Ask a Question, How It Works, Legal Sources, and About & Limitations pages, and calls the API for answers and source details. However, there is no approved legal corpus, report store, database, ingestion worker, or end-to-end deployment in this checkout. The implementation remains a prototype, not a complete public-facing MVP.
 
 ## What is in the repository
 
@@ -16,7 +16,7 @@ The API routes for questions, source listing/details, report submission, and liv
 | Product and UX | Product overview, requirements, vision/scope, user journeys, response behavior, and safety boundaries in [`Docs/The_Official_Docs/`](Docs/The_Official_Docs/). |
 | Architecture and ownership | Draft technical architecture and proposed team responsibilities in [`Docs/Team_Structuring_and_Roles/version 1.0/`](Docs/Team_Structuring_and_Roles/version%201.0/). |
 | AI engine and API | Python engine and FastAPI service in [`pipelines_and_ai_engineering/`](pipelines_and_ai_engineering/), with command-line entry points and unit tests. |
-| Research/data and presentation | Department READMEs and directory structure; no legal corpus or frontend implementation is present in this checkout. |
+| Research/data and presentation | Department READMEs, directory structure, and the static frontend in [`frontend/`](frontend/); no approved legal corpus is present in this checkout. |
 | Runtime configuration | [`.env.example`](.env.example) documents Gemini and retrieval settings. The root [`DOCKERFILE`](DOCKERFILE) is currently empty. |
 
 The authoritative project intent is described across the product and architecture documents. They are marked draft or for team review; they should not be read as evidence that each planned feature has shipped.
@@ -54,6 +54,7 @@ The API contract is based on [`technical-architecture.md`](Docs/The_Official_Doc
 | `GET /api/sources` | List legal sources and their verification status. |
 | `GET /api/sources/{id}` | Return source details and relevant provision information. |
 | `POST /api/reports` | Validate reports; return 503 while persistent storage is unavailable. |
+| `GET /` and frontend asset paths | Serve the static web interface from `frontend/`. |
 | `GET /api/health` | Minimal liveness endpoint; readiness is not implemented. |
 
 The answer contract has a `state` that lets a client render outcomes without inferring them from answer text:
@@ -113,7 +114,7 @@ pipelines_and_ai_engineering/
     test_api.py
 ```
 
-The API provides Pydantic schemas and generated OpenAPI documentation. There is still no database schema or migrations, cache, ingestion worker, persistent report service, frontend, or compose configuration. Reports return 503 until persistence is available. Rate limiting is per process only and is not distributed across multiple workers or replicas. The API and engine require an approved corpus and a Gemini key at startup; neither is included in this checkout.
+The API provides Pydantic schemas and generated OpenAPI documentation, and serves the static frontend from the same origin. There is still no database schema or migrations, cache, ingestion worker, persistent report service, or compose configuration. Reports return 503 until persistence is available. Rate limiting is per process only and is not distributed across multiple workers or replicas. The API and engine require an approved corpus and a Gemini key at startup; neither is included in this checkout.
 
 ## Product safeguards and scope
 

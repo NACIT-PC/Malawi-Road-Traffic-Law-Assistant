@@ -14,7 +14,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import FileResponse, JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
@@ -537,12 +538,6 @@ def create_app(
         )
 
     @application.get(
-        "/",
-        responses=COMMON_ERROR_RESPONSES,
-        tags=["health"],
-        summary="Check API liveness",
-    )
-    @application.get(
         "/api/health",
         responses=COMMON_ERROR_RESPONSES,
         tags=["health"],
@@ -550,6 +545,16 @@ def create_app(
     )
     def health() -> Dict[str, str]:
         return {"status": "ok"}
+
+    @application.get("/", include_in_schema=False)
+    def frontend_home() -> FileResponse:
+        return FileResponse(PROJECT_ROOT / "frontend" / "index.html")
+
+    application.mount(
+        "/",
+        StaticFiles(directory=str(PROJECT_ROOT / "frontend")),
+        name="frontend",
+    )
 
     return application
 

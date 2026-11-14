@@ -40,7 +40,7 @@ Optional API settings:
 
 Optional Gemini and retrieval settings are listed in [the engine README](README.md#configuration). The rate limiter is process-local; it is not distributed across multiple Uvicorn workers or server instances.
 
-## 3. Start Uvicorn and open the API
+## 3. Start Uvicorn and open the frontend or API
 
 Open PowerShell in the repository root. Confirm that `.env` contains a key without printing the secret:
 
@@ -90,7 +90,7 @@ Leave that window open while using the API. In a second PowerShell window, open 
 Start-Process "http://127.0.0.1:8000/docs"
 ```
 
-The interactive page lets you expand an endpoint, select **Try it out**, enter a request body, and select **Execute**. The raw OpenAPI schema is at `http://127.0.0.1:8000/openapi.json`.
+The frontend is served from the same origin at `http://127.0.0.1:8000/`. The interactive API page lets you expand an endpoint, select **Try it out**, enter a request body, and select **Execute**. The raw OpenAPI schema is at `http://127.0.0.1:8000/openapi.json`.
 
 You can also check the running service from the second window:
 
@@ -113,12 +113,13 @@ The server is bound to `127.0.0.1` for local use. Do not expose the development 
 
 | Method and path | Purpose |
 |---|---|
-| `GET /` | Root liveness check; returns `{"status":"ok"}`. |
+| `GET /` | Serves the frontend home page. |
+| `GET /{frontend asset}` | Serves frontend pages and assets from `frontend\`. |
 | `POST /api/ask` | Accepts `{"question":"..."}`; returns a supported or insufficient-evidence answer and citations. |
 | `GET /api/sources` | Lists source metadata from the loaded corpus. |
 | `GET /api/sources/{source_id}` | Returns source details and verified/current provisions. Unknown IDs return 404. |
 | `POST /api/reports` | Validates a report; returns 503 until persistent report storage is implemented. |
-| `GET /api/health` | Liveness alias; returns `{"status":"ok"}` and does not indicate corpus or Gemini readiness. |
+| `GET /api/health` | Returns `{"status":"ok"}` and does not indicate corpus or Gemini readiness. |
 
 An example question request:
 

@@ -1,38 +1,41 @@
 <!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-        <title>
-            Malawi Road Traffic Law Assistant
-        </title>
-
-        <link rel="stylesheet" href="road.css"/>
-
-    </head>
-    <body>
-        
-        <div class="banner">
-            Independent AI assistant. Not an official government service. Answers are not legal rulings or official notices.
-        </div>
-
-        <!--This shows up as the heading of the page-->
-
-        <header>
-            <h1>Malawi Road Traffic Law Assistant</h1>
-        </header>
-
-        <!--This is for the nav bar contents-->
-
-        <nav>
-            <a href="road.html">Home</a>
-            <a href="Ask.html" class="active">Ask a Question</a>
-            <a href="how-it-works.html">How It Works</a>
-            <a href="legal-sources.html">Legal Sources</a>
-            <a href="about.html">About & Limitations</a>
-        </nav>
-
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ask the Malawi Road Traffic Law Assistant a question and review its evidence.">
+    <title>Ask a Question | Malawi Road Traffic Law Assistant</title>
+    <link rel="stylesheet" href="/road.css">
+    <script src="/app.js" defer></script>
+</head>
+<body>
+    <div class="banner" role="note">Independent legal information tool. Not a government service, legal ruling, fine notice, or payment service.</div>
+    <header class="site-header"><a class="brand" href="/">Malawi Road Traffic Law Assistant</a></header>
+    <nav aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/Ask.html" aria-current="page">Ask a Question</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/legal-sources.html">Legal Sources</a>
+        <a href="/about.html">About &amp; Limitations</a>
+    </nav>
+    <main class="container">
+        <section class="page-heading">
+            <p class="eyebrow">Question and answer</p>
+            <h1>Ask about a road traffic rule</h1>
+            <p>Ask a general question. Do not include identity, licence, payment, or other sensitive details.</p>
+        </section>
+        <section class="card conversation-card" aria-label="Conversation">
+            <div class="conversation" data-conversation aria-live="polite">
+                <p class="conversation-intro">Responses come from the backend's available legal evidence. Check the citations and limitations before relying on an answer.</p>
+            </div>
+            <form class="question-form" data-ask-form>
+                <label for="ask-question">Your question</label>
+                <textarea id="ask-question" name="question" rows="3" maxlength="2000" required placeholder="Enter a road traffic law question"></textarea>
+                <button type="submit">Send question</button>
+                <p class="field-help">Maximum 2,000 characters. No account is needed.</p>
+            </form>
+        </section>
+    </main>
+    <footer><a href="/about.html">About &amp; limitations</a><span>Answers are not official legal decisions or payment instructions.</span></footer>
+</body>
 </html>

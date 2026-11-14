@@ -99,11 +99,11 @@ The local development server listens on `http://127.0.0.1:8000`; interactive Ope
 | `GET /api/sources` | Lists source metadata from the loaded corpus. |
 | `GET /api/sources/{source_id}` | Returns a source and its provisions; provision text and links are exposed only for verified/current sources. |
 | `POST /api/reports` | Validates a report and returns `503 report_storage_unavailable` until persistent report storage exists. Reports are not silently discarded. |
-| `GET /` | Returns minimal liveness status. |
-| `GET /api/health` | Liveness alias; it does not disclose readiness or configuration. |
+| `GET /` | Serves the frontend home page and static assets from `frontend/`. |
+| `GET /api/health` | Returns minimal liveness status; it does not disclose readiness or configuration. |
 
 The API maps the engine's current results to `supported` and `insufficient_evidence`. `conflicting_sources`, `possibly_outdated`, and `needs_clarification` are reserved because their detection is not implemented. `technical_failure` is reserved as an answer state; request failures instead use the documented HTTP error response. The API does not produce a structured penalty lookup or official next step, and returns those fields as null.
 
 `API_ALLOWED_ORIGINS` is a comma-separated allowlist of exact origins; it is empty by default. `API_MAX_REQUEST_BYTES`, `API_RATE_LIMIT_REQUESTS`, and `API_RATE_LIMIT_WINDOW_SECONDS` configure request limits. The rate limiter is process-local and is not shared between workers or replicas; deployments with multiple workers must enforce shared rate limiting at a trusted proxy or add a shared backend. Gemini requests have a configurable `GEMINI_TIMEOUT_MS` timeout.
 
-This API milestone does not include a frontend, database, report persistence, distributed rate limiting, authentication, or deployment configuration. It is not a production-security certification. A production deployment still needs reviewed legal data, HTTPS and a trusted proxy, operational monitoring, deployment-specific controls, and an agreed persistent report store.
+The API now serves the static frontend from the same origin. This milestone still does not include report persistence, a database, distributed rate limiting, authentication, or deployment configuration. It is not a production-security certification. A production deployment still needs reviewed legal data, HTTPS and a trusted proxy, operational monitoring, deployment-specific controls, and an agreed persistent report store.
