@@ -19,6 +19,7 @@ RUN pip install --no-cache-dir -r pipelines_and_ai_engineering/requirements.txt
 COPY pipelines_and_ai_engineering pipelines_and_ai_engineering
 COPY frontend frontend
 COPY --from=frontend-build /workspace/frontend/dist frontend/dist
+COPY research_and_data/legal_corpus.jsonl research_and_data/legal_corpus.jsonl
 # research_and_data/ is mounted by docker-compose so legal data updates need only a restart.
 
 RUN useradd --create-home appuser
