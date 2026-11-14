@@ -5,7 +5,7 @@ This package provides a small, replaceable retrieval-and-generation engine for t
 ## Current boundaries
 
 - Gemini uses the official Google GenAI Python SDK and Interactions API.
-- Google Search is intentionally not enabled. Answers are generated only from retrieved local records; web search results are not approved legal sources by themselves.
+- Google Search is intentionally not enabled. Traffic-law answers use only retrieved local records; messages without relevant evidence receive a conversational response that must not state specific traffic-law rules or fines.
 - Interactions are sent with `store=False` so the engine does not ask Gemini to retain conversation state.
 - The starter retriever is dependency-free lexical matching. Replace it with a semantic/vector retriever later without changing the `LegalAssistant` interface.
 - Only records marked both `verification_status: "verified"` and `validity_status: "current"` can be used as answer evidence.
@@ -24,7 +24,7 @@ python -m pipelines_and_ai_engineering.main "What does the law say about a valid
 
 The engine loads `.env` from the repository root automatically. `.env` is ignored by Git; `.env.example` is a safe, tracked template and must contain placeholders only. Never commit a real API key. Variables already set in the shell or deployment environment take precedence over values in `.env`; production deployments should use their secret manager.
 
-The checked-in corpus currently contains 14 records, but none is marked both verified and current. Until the Research and Data team adds reviewed records with those statuses, the assistant correctly returns an insufficient-evidence response and does not call Gemini. Set `LEGAL_CORPUS_PATH` to another approved JSONL file when using a separately reviewed corpus. The engine does not fabricate records when the corpus is missing or has no relevant verified entries.
+The checked-in corpus currently contains 14 records, but none is marked both verified and current. Until the Research and Data team adds reviewed records with those statuses, traffic-law questions without eligible evidence receive a clear no-verified-answer response. Greetings and general requests still receive conversational responses. Set `LEGAL_CORPUS_PATH` to another approved JSONL file when using a separately reviewed corpus.
 
 ## Add legal data without changing engine code
 
@@ -51,7 +51,7 @@ if result.status == "answered":
     for citation in result.citations:
         print(citation.title, citation.provision, citation.url)
 else:
-    print(result.answer)  # Explicit insufficient-evidence response
+    print(result.answer)  # General response or no-verified-answer response
 ```
 
 `LegalAssistant` accepts an `EvidenceRetriever` and `TextGenerator` in its constructor for tests or alternate implementations. `FileNotFoundError`, corpus format errors, Gemini errors, and uncited/invalid model output are surfaced to the caller; they are not converted into a legal answer.
@@ -102,7 +102,7 @@ The local development server listens on `http://127.0.0.1:8000`; interactive Ope
 | `GET /` | Serves the frontend home page and static assets from `frontend/`. |
 | `GET /api/health` | Returns minimal liveness status; it does not disclose readiness or configuration. |
 
-The API maps the engine's current results to `supported` and `insufficient_evidence`. `conflicting_sources`, `possibly_outdated`, and `needs_clarification` are reserved because their detection is not implemented. `technical_failure` is reserved as an answer state; request failures instead use the documented HTTP error response. The API does not produce a structured penalty lookup or official next step, and returns those fields as null.
+The API maps the engine's current results to `supported`, `insufficient_evidence`, or `general_response`. Greetings and general requests use `general_response`; traffic-law answers still require evidence. `conflicting_sources`, `possibly_outdated`, and `needs_clarification` are reserved because their detection is not implemented. `technical_failure` is reserved as an answer state; request failures instead use the documented HTTP error response. The API does not produce a structured penalty lookup or official next step, and returns those fields as null.
 
 `API_ALLOWED_ORIGINS` is a comma-separated allowlist of exact origins; it is empty by default. `API_MAX_REQUEST_BYTES`, `API_RATE_LIMIT_REQUESTS`, and `API_RATE_LIMIT_WINDOW_SECONDS` configure request limits. The rate limiter is process-local and is not shared between workers or replicas; deployments with multiple workers must enforce shared rate limiting at a trusted proxy or add a shared backend. Gemini requests have a configurable `GEMINI_TIMEOUT_MS` timeout.
 

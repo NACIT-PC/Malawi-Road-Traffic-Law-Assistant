@@ -119,8 +119,10 @@ class AskEndpointTests(unittest.TestCase):
         self.assertEqual(citation["verification_status"], "provisional")
         self.assertEqual(citation["validity_status"], "current")
 
-    def test_insufficient_evidence_is_preserved(self) -> None:
-        generator = FakeGenerator()
+    def test_empty_evidence_returns_general_response(self) -> None:
+        generator = FakeGenerator(
+            answer="I don't have a verified answer on that point, so I won't guess."
+        )
         with make_client(generator=generator) as client:
             response = client.post(
                 "/api/ask",
@@ -128,11 +130,12 @@ class AskEndpointTests(unittest.TestCase):
             )
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()["state"], "insufficient_evidence")
+        self.assertEqual(response.json()["state"], "general_response")
         self.assertEqual(response.json()["citations"], [])
         self.assertIn("won't guess", response.json()["direct_answer"])
-        self.assertIn("can't give a reliable answer yet", response.json()["direct_answer"])
-        self.assertEqual(generator.prompts, [])
+        self.assertIn("verified answer", response.json()["direct_answer"])
+        self.assertIn("verified legal evidence", response.json()["verification_note"])
+        self.assertEqual(len(generator.prompts), 1)
 
     def test_empty_malformed_and_blank_question_requests_are_rejected(self) -> None:
         with make_client() as client:
@@ -229,6 +232,7 @@ class AskEndpointTests(unittest.TestCase):
             [
                 "supported",
                 "insufficient_evidence",
+                "general_response",
                 "conflicting_sources",
                 "possibly_outdated",
                 "needs_clarification",

@@ -133,18 +133,45 @@ class AssistantTests(unittest.TestCase):
         self.assertEqual(result.citations[0].validity_status, "current")
         self.assertIn("approved evidence", generator.prompts[0])
         self.assertIn("Section 12", generator.prompts[0])
+        self.assertIn("same language as the user's question", generator.prompts[0])
         self.assertIn("concise, direct answer", generator.prompts[0])
         self.assertIn("immediately after each supported legal claim", generator.prompts[0])
 
-    def test_no_relevant_verified_evidence_skips_generation(self) -> None:
-        generator = FakeGenerator("This must not be used")
+    def test_no_evidence_uses_conversational_prompt_without_citations(self) -> None:
+        generator = FakeGenerator("Hello! I can help with general questions.")
         assistant = LegalAssistant(LexicalEvidenceRetriever([evidence()]), generator)
 
-        result = assistant.ask("How do I renew a passport?")
+        result = assistant.ask("Hello, what can you help me with?")
 
-        self.assertEqual(result.status, "insufficient_evidence")
-        self.assertEqual(generator.prompts, [])
-        self.assertIn("won't guess", result.answer)
+        self.assertEqual(result.status, "general_response")
+        self.assertEqual(result.answer, "Hello! I can help with general questions.")
+        self.assertEqual(len(generator.prompts), 1)
+        self.assertIn("same language as the user's message", generator.prompts[0])
+        self.assertIn("do not guess or state laws, fines, sections", generator.prompts[0])
+        self.assertIn("No relevant verified evidence was found", generator.prompts[0])
+
+    def test_no_evidence_rejects_made_up_citation_labels(self) -> None:
+        assistant = LegalAssistant(
+            LexicalEvidenceRetriever([]),
+            FakeGenerator("The fine is MWK 50,000. [E1]"),
+        )
+
+        with self.assertRaisesRegex(UncitedAnswerError, "when no evidence was provided"):
+            assistant.ask("What is the fine for this offence?")
+
+    def test_unsupported_traffic_question_is_prompted_to_decline_guessing(self) -> None:
+        generator = FakeGenerator(
+            "I don't have a verified answer on this point, so I won't guess."
+        )
+        assistant = LegalAssistant(LexicalEvidenceRetriever([]), generator)
+
+        result = assistant.ask("What is the fine for driving under the influence?")
+
+        self.assertEqual(result.status, "general_response")
+        self.assertEqual(result.citations, ())
+        self.assertIn("verified answer on that point", generator.prompts[0])
+        self.assertIn("Directorate of Road Traffic and Safety Services", generator.prompts[0])
+        self.assertNotIn("MWK 50,000", result.answer)
 
     def test_empty_question_is_rejected(self) -> None:
         assistant = LegalAssistant(LexicalEvidenceRetriever([]), FakeGenerator("unused"))

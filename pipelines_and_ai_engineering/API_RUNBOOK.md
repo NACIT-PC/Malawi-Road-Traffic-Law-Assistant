@@ -126,7 +126,7 @@ The server is bound to `127.0.0.1` for local use. Do not expose the development 
 |---|---|
 | `GET /` | Serves the frontend home page. |
 | `GET /{frontend route or asset}` | Serves the React app and built assets from `frontend\dist\`. |
-| `POST /api/ask` | Accepts `{"question":"..."}`; returns a supported or insufficient-evidence answer and citations. |
+| `POST /api/ask` | Accepts `{"question":"..."}`; returns an evidence-supported traffic-law answer or a general response, with citations when evidence is used. |
 | `GET /api/sources` | Lists source metadata from the loaded corpus. |
 | `GET /api/sources/{source_id}` | Returns source details and verified/current provisions. Unknown IDs return 404. |
 | `POST /api/reports` | Validates a report; returns 503 until persistent report storage is implemented. |
@@ -141,7 +141,7 @@ Invoke-RestMethod -Method Post `
   -Body '{"question":"What does the approved source say about this traffic rule?"}'
 ```
 
-The API maps the engine's implemented outcomes to `supported` and `insufficient_evidence`. Conflict detection, outdated-source detection, clarification, penalty lookup, official next-step lookup, and report persistence are not implemented.
+The API maps engine outcomes to `supported`, `insufficient_evidence`, or `general_response`. Conflict detection, outdated-source detection, clarification, penalty lookup, official next-step lookup, and report persistence are not implemented.
 
 ## 5. Run tests
 

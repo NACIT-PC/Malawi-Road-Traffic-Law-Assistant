@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 class AnswerState(str, Enum):
     SUPPORTED = "supported"
     INSUFFICIENT_EVIDENCE = "insufficient_evidence"
+    GENERAL_RESPONSE = "general_response"
     CONFLICTING_SOURCES = "conflicting_sources"
     POSSIBLY_OUTDATED = "possibly_outdated"
     NEEDS_CLARIFICATION = "needs_clarification"

@@ -52,6 +52,10 @@ VERIFICATION_NOTE = (
     "This is legal information, not a determination of guilt, proof that a fine "
     "was issued, or confirmation of payment."
 )
+GENERAL_RESPONSE_NOTE = (
+    "For Malawi road-traffic law, the assistant uses verified legal evidence and "
+    "won't guess when a verified source is unavailable."
+)
 COMMON_ERROR_RESPONSES = {
     413: {"model": ErrorResponse, "description": "Request body too large"},
     429: {"model": ErrorResponse, "description": "Rate limit exceeded"},
@@ -434,6 +438,8 @@ def create_app(
             state = AnswerState.SUPPORTED
         elif result.status == "insufficient_evidence":
             state = AnswerState.INSUFFICIENT_EVIDENCE
+        elif result.status == "general_response":
+            state = AnswerState.GENERAL_RESPONSE
         else:
             raise RuntimeError("Assistant returned an unsupported result state")
         citations = tuple(
@@ -455,7 +461,11 @@ def create_app(
             state=state,
             direct_answer=result.answer,
             citations=citations,
-            verification_note=VERIFICATION_NOTE,
+            verification_note=(
+                GENERAL_RESPONSE_NOTE
+                if state == AnswerState.GENERAL_RESPONSE
+                else VERIFICATION_NOTE
+            ),
         )
 
     @application.get(

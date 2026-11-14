@@ -155,6 +155,7 @@ const navigation = [
 const stateLabels = {
   supported: "Evidence found",
   insufficient_evidence: "Not enough evidence",
+  general_response: "General response",
   conflicting_sources: "Sources conflict",
   possibly_outdated: "Check source status",
   needs_clarification: "More detail needed",
@@ -617,7 +618,7 @@ function AnswerCard({ entry, onFollowUp }) {
     <article className="chat-response">
       <div className="response-heading">
         <span className="response-orb"><Sparkles size={17} /></span>
-        <div><h3>{stateLabels[answer.state] || "Assistant response"}</h3><span>Based on the available source records</span></div>
+        <div><h3>{stateLabels[answer.state] || "Assistant response"}</h3><span>{answer.state === "general_response" ? "General help; road-law answers require verified sources" : "Based on the available source records"}</span></div>
       </div>
       <p className="answer-copy">{answer.direct_answer}</p>
       {answer.explanation && <p className="answer-copy">{answer.explanation}</p>}

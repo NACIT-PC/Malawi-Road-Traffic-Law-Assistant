@@ -30,10 +30,10 @@ The Python package in `pipelines_and_ai_engineering/ai/` currently provides:
 3. **Starter retrieval**  dependency-free lexical matching across topic, provision, evidence text, and source title. Results are ranked by query-term overlap and limited to the configured top results.
 4. **Gemini generation adapter**  uses the Google GenAI SDK Interactions API with a configurable request timeout. It does not enable Google Search and sends `store=False`.
 5. **Grounding and citation-label checks**  the prompt instructs the model to answer only from supplied evidence and use evidence labels. The engine rejects answers with no recognized evidence label or labels that were not supplied. This checks citation-label presence and validity; it is not a semantic proof that every claim is entailed by its cited passage.
-6. **Explicit insufficient-evidence behavior**  when retrieval returns no records, the engine returns a limitation response without calling Gemini.
+6. **Conversational fallback**  when retrieval returns no records, the engine asks Gemini for a same-language general response, with explicit instructions not to guess traffic-law rules, penalties, or sources; it rejects any citation labels when no evidence was supplied.
 7. **Configuration and entry points**  environment/`.env` configuration, a Python `LegalAssistant` interface, and a command-line question entry point.
 8. **Unit tests**  tests cover corpus parsing, verified/current filtering, configuration loading, unsupported questions, citation-label errors, and the Gemini adapter's stateless/no-search request.
-9. **HTTP API**  FastAPI endpoints validate requests, map the two implemented engine results to `supported` or `insufficient_evidence`, expose corpus-backed source metadata, and provide request IDs. Explicit-origin CORS, body/question limits, structured errors, and process-local rate limiting are included.
+9. **HTTP API**  FastAPI endpoints validate requests, map engine results to `supported`, `insufficient_evidence`, or `general_response`, expose corpus-backed source metadata, and provide request IDs. Explicit-origin CORS, body/question limits, structured errors, and process-local rate limiting are included.
 10. **Report behavior**  report payloads are validated, but the endpoint returns `503 report_storage_unavailable`; it does not claim to persist reports.
 11. **React web frontend**  a responsive landing page, practical articles, API-backed legal source browser, and chat-style assistant. The Vite production build is served by FastAPI and by the Nginx frontend container, with SPA route fallbacks.
 
@@ -71,7 +71,7 @@ The architecture example also describes fields such as `request_id`, `direct_ans
 
 ### Difference between the proposed API and the current engine interface
 
-The engine result uses `status`, `answer`, and citations. The API maps its current statuses `answered` and `insufficient_evidence` to `supported` and `insufficient_evidence`. `conflicting_sources`, `possibly_outdated`, and `needs_clarification` are reserved because the service does not detect those conditions; technical failures use HTTP error responses rather than an answer state. The service does not implement penalty lookup, official next steps, clarification, conflicting/outdated-source detection, or readiness checks. The `supported` state means the engine returned an answer with valid evidence labels; it does not prove semantic entailment of every generated claim.
+The engine result uses `status`, `answer`, and citations. The API maps engine statuses to `supported`, `insufficient_evidence`, and `general_response`. `conflicting_sources`, `possibly_outdated`, and `needs_clarification` are reserved because the service does not detect those conditions; technical failures use HTTP error responses rather than an answer state. The service does not implement penalty lookup, official next steps, clarification, conflicting/outdated-source detection, or readiness checks. The `supported` state means the engine returned an answer with valid evidence labels; it does not prove semantic entailment of every generated claim.
 
 ## Backend structure: design versus implementation
 
