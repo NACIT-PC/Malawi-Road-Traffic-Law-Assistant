@@ -24,7 +24,7 @@ python -m pipelines_and_ai_engineering.main "What does the law say about a valid
 
 The engine loads `.env` from the repository root automatically. `.env` is ignored by Git; `.env.example` is a safe, tracked template and must contain placeholders only. Never commit a real API key. Variables already set in the shell or deployment environment take precedence over values in `.env`; production deployments should use their secret manager.
 
-If there is no corpus file yet, `LEGAL_CORPUS_PATH` should point to the JSONL file the Research and Data team will provide. The engine does not fabricate records when the corpus is missing or has no relevant verified entries.
+The checked-in corpus currently contains 14 records, but none is marked both verified and current. Until the Research and Data team adds reviewed records with those statuses, the assistant correctly returns an insufficient-evidence response and does not call Gemini. Set `LEGAL_CORPUS_PATH` to another approved JSONL file when using a separately reviewed corpus. The engine does not fabricate records when the corpus is missing or has no relevant verified entries.
 
 ## Add legal data without changing engine code
 

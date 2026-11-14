@@ -50,6 +50,8 @@ class Citation:
     url: Optional[str]
     version: Optional[str]
     last_verified: Optional[str]
+    verification_status: str = "verified"
+    validity_status: str = "current"
 
 
 @dataclass(frozen=True)

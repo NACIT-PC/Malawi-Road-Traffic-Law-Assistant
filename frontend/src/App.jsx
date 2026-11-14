@@ -594,7 +594,7 @@ function CitationList({ citations = [] }) {
               <span className="citation-index">{index + 1}</span>
               <span>
                 <strong>{citation.title}</strong>
-                <small>{citation.provision}{citation.version ? ` · ${citation.version}` : ""}{citation.last_verified ? ` · Verified ${citation.last_verified}` : ""}</small>
+                <small>{citation.provision}{citation.version ? ` · ${citation.version}` : ""}{citation.last_verified ? ` · Verified ${citation.last_verified}` : ""}{citation.verification_status ? ` · ${citation.verification_status}` : ""}{citation.validity_status ? ` · ${citation.validity_status}` : ""}</small>
                 {href ? <a href={href} target="_blank" rel="noopener noreferrer">Open official source <ExternalLink size={13} /></a> : <Link to={`/sources?source=${encodeURIComponent(citation.source_id)}`}>View source record <ArrowRight size={13} /></Link>}
               </span>
             </li>

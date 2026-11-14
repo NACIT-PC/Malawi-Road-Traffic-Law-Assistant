@@ -129,8 +129,12 @@ class AssistantTests(unittest.TestCase):
         self.assertEqual(result.status, "answered")
         self.assertEqual(result.answer, "Hold a valid licence. [E1]")
         self.assertEqual([citation.evidence_id for citation in result.citations], ["ev-1"])
+        self.assertEqual(result.citations[0].verification_status, "verified")
+        self.assertEqual(result.citations[0].validity_status, "current")
         self.assertIn("approved evidence", generator.prompts[0])
         self.assertIn("Section 12", generator.prompts[0])
+        self.assertIn("concise, direct answer", generator.prompts[0])
+        self.assertIn("immediately after each supported legal claim", generator.prompts[0])
 
     def test_no_relevant_verified_evidence_skips_generation(self) -> None:
         generator = FakeGenerator("This must not be used")

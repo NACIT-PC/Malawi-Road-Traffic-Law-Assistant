@@ -19,6 +19,7 @@ from pipelines_and_ai_engineering.ai import (
 )
 from pipelines_and_ai_engineering.api import ApiSettings, create_app
 from pipelines_and_ai_engineering.api.app import MAX_QUESTION_LENGTH
+from pipelines_and_ai_engineering.ai.retrieval import RetrievedEvidence
 
 
 def evidence(
@@ -100,6 +101,24 @@ class AskEndpointTests(unittest.TestCase):
         self.assertEqual(response.headers["cache-control"], "no-store")
         self.assertIn("not a determination of guilt", body["verification_note"])
 
+    def test_citation_statuses_are_taken_from_the_evidence(self) -> None:
+        provisional = evidence(verification_status="provisional")
+
+        class FixedRetriever:
+            def retrieve(self, question: str, limit: int) -> tuple[RetrievedEvidence, ...]:
+                return (RetrievedEvidence(provisional, 1.0, ("driving",)),)
+
+        assistant = LegalAssistant(FixedRetriever(), FakeGenerator())
+        with TestClient(create_app(assistant, (provisional,))) as client:
+            response = client.post(
+                "/api/ask",
+                json={"question": "What is the driving licence rule?"},
+            )
+
+        citation = response.json()["citations"][0]
+        self.assertEqual(citation["verification_status"], "provisional")
+        self.assertEqual(citation["validity_status"], "current")
+
     def test_insufficient_evidence_is_preserved(self) -> None:
         generator = FakeGenerator()
         with make_client(generator=generator) as client:
@@ -112,6 +131,7 @@ class AskEndpointTests(unittest.TestCase):
         self.assertEqual(response.json()["state"], "insufficient_evidence")
         self.assertEqual(response.json()["citations"], [])
         self.assertIn("won't guess", response.json()["direct_answer"])
+        self.assertIn("can't give a reliable answer yet", response.json()["direct_answer"])
         self.assertEqual(generator.prompts, [])
 
     def test_empty_malformed_and_blank_question_requests_are_rejected(self) -> None:

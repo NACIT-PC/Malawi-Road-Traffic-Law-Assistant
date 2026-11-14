@@ -7,7 +7,7 @@
 
 This repository contains the product and technical design for a public-facing assistant that explains Malawi road-traffic law using verified legal sources. The implemented software includes a standalone Python retrieval-and-generation engine, a FastAPI service, and a React frontend built with Vite. FastAPI serves the production frontend build on the same origin; Docker Compose also builds an Nginx frontend image.
 
-The frontend includes an informational landing page, practical guides, a source browser, and an evidence-linked assistant, plus how-it-works and limitations pages. It calls the existing API for answers and source details. The configured corpus returned no source records during the latest API smoke test. There is also no report store, database, or ingestion worker, so the implementation remains a prototype, not a complete public-facing MVP.
+The frontend includes an informational landing page, practical guides, a source browser, and an evidence-linked assistant, plus how-it-works and limitations pages. It calls the existing API for answers and source details. The configured corpus has 14 records, but none is marked both verified and current, so the default retriever has no eligible legal evidence and will not generate substantive answers. There is also no report store, database, or ingestion worker, so the implementation remains a prototype, not a complete public-facing MVP.
 
 ## What is in the repository
 
@@ -16,7 +16,7 @@ The frontend includes an informational landing page, practical guides, a source 
 | Product and UX | Product overview, requirements, vision/scope, user journeys, response behavior, and safety boundaries in [`Docs/The_Official_Docs/`](Docs/The_Official_Docs/). |
 | Architecture and ownership | Draft technical architecture and proposed team responsibilities in [`Docs/Team_Structuring_and_Roles/version 1.0/`](Docs/Team_Structuring_and_Roles/version%201.0/). |
 | AI engine and API | Python engine and FastAPI service in [`pipelines_and_ai_engineering/`](pipelines_and_ai_engineering/), with command-line entry points and unit tests. |
-| Research/data and presentation | Department READMEs, directory structure, and the React frontend in [`frontend/`](frontend/). The configured corpus currently returns no source records. |
+| Research/data and presentation | Department READMEs, directory structure, and the React frontend in [`frontend/`](frontend/). The configured corpus contains records, but none is currently eligible for answer generation. |
 | Runtime configuration | [`.env.example`](.env.example) documents Gemini and retrieval settings. The root [`Dockerfile`](Dockerfile) builds the API image and React assets; Docker Compose builds the frontend and reverse-proxy services. |
 
 The authoritative project intent is described across the product and architecture documents. They are marked draft or for team review; they should not be read as evidence that each planned feature has shipped.
@@ -43,7 +43,7 @@ The documented test command is:
 python -m unittest discover -s pipelines_and_ai_engineering/tests -v
 ```
 
-The default corpus path is `research_and_data/legal_corpus.jsonl`; it returned zero source records during the latest API smoke test. A real Gemini API key is required to start the service; tests inject fake generators and do not require a live API call. See the [Uvicorn API run guide](pipelines_and_ai_engineering/API_RUNBOOK.md) for local startup instructions.
+The default corpus path is `research_and_data/legal_corpus.jsonl`; it currently contains 14 records and zero records marked both verified and current. Add reviewed, current records before expecting substantive answers. A real Gemini API key is required to start the service; tests inject fake generators and do not require a live API call. See the [Uvicorn API run guide](pipelines_and_ai_engineering/API_RUNBOOK.md) for local startup instructions.
 
 ## API design documented for the MVP
 
@@ -115,7 +115,7 @@ pipelines_and_ai_engineering/
     test_api.py
 ```
 
-The API provides Pydantic schemas and generated OpenAPI documentation, and serves the built React frontend from the same origin. Docker Compose configures the API, Nginx frontend, and reverse proxy. There is still no database schema or migrations, cache, ingestion worker, or persistent report service. Reports return 503 until persistence is available. Rate limiting is per process only and is not distributed across multiple workers or replicas. The API requires a Gemini key and corpus path at startup; the configured corpus currently returns no source records.
+The API provides Pydantic schemas and generated OpenAPI documentation, and serves the built React frontend from the same origin. Docker Compose configures the API, Nginx frontend, and reverse proxy. There is still no database schema or migrations, cache, ingestion worker, or persistent report service. Reports return 503 until persistence is available. Rate limiting is per process only and is not distributed across multiple workers or replicas. The API requires a Gemini key and corpus path at startup; the configured corpus currently has no verified/current records eligible for answer generation.
 
 ## Product safeguards and scope
 

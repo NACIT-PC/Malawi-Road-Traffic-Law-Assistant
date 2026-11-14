@@ -445,6 +445,8 @@ def create_app(
                 url=citation.url,
                 version=citation.version,
                 last_verified=citation.last_verified,
+                verification_status=citation.verification_status,
+                validity_status=citation.validity_status,
             )
             for citation in result.citations
         )
